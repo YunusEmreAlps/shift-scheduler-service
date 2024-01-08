@@ -1,0 +1,4 @@
+DROP TABLE IF EXISTS shift_schedule CASCADE;
+
+-- DROP EXTENSION IF EXISTS postgis_topology;
+-- DROP EXTENSION IF EXISTS postgis;
