@@ -5,8 +5,8 @@ Kullanıcıların vardiya dönemlerini yönetmelerini ve vardiya listelerini olu
 ## Özellikler
 
 - CRUD işlemleri için RESTful API uç noktaları.
-- JWT Kimlik Doğrulama.
-- Hız Sınırlama.
+- JWT Kimlik Doğrulama. (**Daha sonra eklenecek**)
+- Rate Limiting.
 - Swagger Dokümantasyonu.
 - GORM kullanarak PostgreSQL veritabanı entegrasyonu.
 - Redis önbelleği.
@@ -15,8 +15,8 @@ Kullanıcıların vardiya dönemlerini yönetmelerini ve vardiya listelerini olu
 
 ## İçerik
 
-- [Hızlı başlangıç](#quick-start)
-- [Proje yapısı](#project-structure)
+- [Hızlı başlangıç](#hızlı-başlangıç)
+- [Proje yapısı](#proje-yapısı)
 
 ## Hızlı başlangıç
 
@@ -240,72 +240,67 @@ pkg/postman içerisinde yer alan dosyayı postman uygulamasına sürükleyin.
     "intent": "cld:::shiftservice:::/shift-schedules",
     "message": [
         {
-            "ID": 1,
-            "CreatedAt": "2024-01-03T15:05:09.503045+03:00",
-            "UpdatedAt": "2024-01-03T15:05:09.503045+03:00",
-            "DeletedAt": null,
+            "ID": 0,
             "alias": "Shift 1",
+            "description": "Description 1",
+            "frequency": 7,
+            "start_date": "2023-01-01T00:00:00+03:00",
+            "end_date": "2023-10-01T00:00:00+03:00",
+            "year": 2023,
+            "status": 0,
             "organization": [
                 {
-                    "description": "",
-                    "mail": "",
-                    "id": 1,
+                    "id": 0,
                     "name": "Group 1",
-                    "phone": ""
+                    "phone": "",
+                    "mail": "",
+                    "description": ""
                 }
             ],
             "manager": [
                 {
-                    "description": "",
-                    "mail": "",
-                    "id": 1,
+                    "id": 0,
                     "name": "Manager 1",
-                    "phone": ""
+                    "phone": "",
+                    "mail": "",
+                    "description": ""
                 }
             ],
-            "description": "Description 1",
-            "start_date": "2023-01-01T00:00:00+03:00",
-            "end_date": "2023-10-01T00:00:00+03:00",
             "shifts": [
                 {
-                    "end": "2023-02-01 00:00:00",
                     "id": 0,
                     "start": "2023-01-01 00:00:00",
+                    "end": "2023-02-01 00:00:00",
                     "user": {
-                        "description": "",
-                        "mail": "",
-                        "id": 21304362,
                         "name": "User 1",
+                        "mail": "",
                         "phone": ""
                     }
                 },
                 {
-                    "end": "2023-02-01 00:00:00",
                     "id": 1,
                     "start": "2023-01-01 00:00:00",
+                    "end": "2023-02-01 00:00:00",
                     "user": {
-                        "description": "",
-                        "mail": "",
-                        "id": 21304362,
                         "name": "User 2",
+                        "mail": "",
                         "phone": ""
                     }
                 },
                 {
-                    "end": "2023-02-01 00:00:00",
                     "id": 2,
                     "start": "2023-01-01 00:00:00",
+                    "end": "2023-02-01 00:00:00",
                     "user": {
-                        "description": "",
-                        "mail": "",
-                        "id": 21304362,
                         "name": "User 3",
+                        "mail": "",
                         "phone": ""
                     }
                 }
             ],
-            "year": 2023,
-            "status": 0
+            "CreatedAt": "2024-01-03T15:05:09.503045+03:00",
+            "UpdatedAt": "2024-01-03T15:05:09.503045+03:00",
+            "DeletedAt": null,
         }
     ]
   }
@@ -327,71 +322,66 @@ pkg/postman içerisinde yer alan dosyayı postman uygulamasına sürükleyin.
     "intent": "cld:::shiftservice:::/shift-schedules/:id",
     "message": {
         "ID": 1,
-        "CreatedAt": "2024-01-03T15:05:09.503045+03:00",
-        "UpdatedAt": "2024-01-03T15:05:09.503045+03:00",
-        "DeletedAt": null,
         "alias": "Shift 1",
+        "description": "Description 1",
+        "frequency": 7,
+        "start_date": "2023-01-01T00:00:00+03:00",
+        "end_date": "2023-10-01T00:00:00+03:00",
+        "year": 2023,
+        "status": 0,
         "organization": [
             {
-                "description": "",
-                "mail": "",
-                "id": 1,
+                "id": 0,
                 "name": "Group 1",
-                "phone": ""
+                "phone": "",
+                "mail": "",
+                "description": ""
             }
         ],
         "manager": [
             {
-                "description": "",
-                "mail": "",
-                "id": 1,
+                "id": 0,
                 "name": "Manager 1",
-                "phone": ""
+                "phone": "",
+                "mail": "",
+                "description": ""
             }
         ],
-        "description": "Description 1",
-        "start_date": "2023-01-01T00:00:00+03:00",
-        "end_date": "2023-10-01T00:00:00+03:00",
         "shifts": [
             {
-                "end": "2023-02-01 00:00:00",
                 "id": 0,
                 "start": "2023-01-01 00:00:00",
+                "end": "2023-02-01 00:00:00",
                 "user": {
-                    "description": "",
-                    "mail": "",
-                    "id": 21304362,
                     "name": "User 1",
+                    "mail": "",
                     "phone": ""
                 }
             },
             {
-                "end": "2023-02-01 00:00:00",
                 "id": 1,
                 "start": "2023-01-01 00:00:00",
+                "end": "2023-02-01 00:00:00",
                 "user": {
-                    "description": "",
-                    "mail": "",
-                    "id": 21304362,
                     "name": "User 2",
+                    "mail": "",
                     "phone": ""
                 }
             },
             {
-                "end": "2023-02-01 00:00:00",
                 "id": 2,
                 "start": "2023-01-01 00:00:00",
+                "end": "2023-02-01 00:00:00",
                 "user": {
-                    "description": "",
-                    "mail": "",
-                    "id": 21304362,
                     "name": "User 3",
+                    "mail": "",
                     "phone": ""
                 }
             }
         ],
-        "year": 2023,
-        "status": 0
+        "CreatedAt": "2024-01-03T15:05:09.503045+03:00",
+        "UpdatedAt": "2024-01-03T15:05:09.503045+03:00",
+        "DeletedAt": null
     }
   }
   ```
@@ -412,71 +402,66 @@ pkg/postman içerisinde yer alan dosyayı postman uygulamasına sürükleyin.
     "intent": "cld:::shiftservice:::/shift-schedules/:deleted",
     "message": {
         "ID": 2,
-        "CreatedAt": "2023-12-28T14:31:06.91924+03:00",
-        "UpdatedAt": "2023-12-28T14:42:47.283204+03:00",
-        "DeletedAt": null,
         "alias": "Shift 2",
+        "description": "Description 1",
+        "frequency": 7,
+        "start_date": "2023-01-01T03:00:00+03:00",
+        "end_date": "2023-11-01T03:00:00+03:00",
+        "year": 2023,
+        "status": 0,
         "organization": [
             {
-                "description": "",
-                "mail": "",
-                "id": 1,
+                "id": 0,
                 "name": "Group 1",
-                "phone": ""
+                "phone": "",
+                "mail": "",
+                "description": ""
             }
         ],
         "manager": [
             {
-                "description": "",
-                "mail": "",
-                "id": 1,
+                "id": 0,
                 "name": "Manager 1",
-                "phone": ""
+                "phone": "",
+                "mail": "",
+                "description": ""
             }
         ],
-        "description": "Description 1",
-        "start_date": "2023-01-01T03:00:00+03:00",
-        "end_date": "2023-11-01T03:00:00+03:00",
         "shifts": [
           {
               "id": 0,
-              "user": {
-                  "description": "",
-                  "mail": "",
-                  "id": 21304362,
-                  "name": "User 1",
-                  "phone": ""
-              },
               "start": "2023-01-01 00:00:00",
               "end": "2023-02-01 00:00:00",
+              "user": {
+                  "name": "User 1",
+                  "mail": "",
+                  "phone": ""
+              },
           },
           {
               "id": 1,
-              "user": {
-                  "description": "",
-                  "mail": "",
-                  "id": 21304362,
-                  "name": "User 2",
-                  "phone": ""
-              },
               "start": "2023-01-01 00:00:00",
               "end": "2023-02-01 00:00:00",
+              "user": {
+                  "name": "User 2",
+                  "mail": "",
+                  "phone": ""
+              },
           },
           {
               "id": 2,
-              "user": {
-                  "description": "",
-                  "mail": "",
-                  "id": 21304362,
-                  "name": "User 3",
-                  "phone": ""
-              },
               "start": "2023-01-01 00:00:00",
               "end": "2023-02-01 00:00:00",
+              "user": {
+                  "name": "User 3",
+                  "mail": "",
+                  "phone": ""
+              },
           }
         ],
-        "year": 2023,
-        "status": 0
+        "CreatedAt": "2023-12-28T14:31:06.91924+03:00",
+        "UpdatedAt": "2023-12-28T14:42:47.283204+03:00",
+        "DeletedAt": null
     }
   }  
   ```
@@ -498,71 +483,66 @@ pkg/postman içerisinde yer alan dosyayı postman uygulamasına sürükleyin.
     "message": [
         {
             "ID": 1,
-            "CreatedAt": "2024-01-03T15:05:09.503045+03:00",
-            "UpdatedAt": "2024-01-03T15:05:09.503045+03:00",
-            "DeletedAt": null,
             "alias": "Shift 1",
+            "description": "Description 1",
+            "frequency": 7,
+            "start_date": "2023-01-01T00:00:00+03:00",
+            "end_date": "2023-10-01T00:00:00+03:00",
+            "year": 2023,
+            "status": 0,
             "organization": [
                 {
-                    "description": "",
-                    "mail": "",
-                    "id": 1,
-                    "name": "Group 1",
-                    "phone": ""
+                  "id": 0,
+                  "name": "Group 1",
+                  "phone": "",
+                  "mail": "",
+                  "description": ""
                 }
             ],
             "manager": [
                 {
-                    "description": "",
-                    "mail": "",
-                    "id": 1,
-                    "name": "Manager 1",
-                    "phone": ""
+                  "id": 0,
+                  "name": "Manager 1",
+                  "phone": "",
+                  "mail": "",
+                  "description": ""
                 }
             ],
-            "description": "Description 1",
-            "start_date": "2023-01-01T00:00:00+03:00",
-            "end_date": "2023-10-01T00:00:00+03:00",
             "shifts": [
                 {
-                    "end": "2023-02-01 00:00:00",
                     "id": 0,
                     "start": "2023-01-01 00:00:00",
+                    "end": "2023-02-01 00:00:00",
                     "user": {
-                        "description": "",
-                        "mail": "",
-                        "id": 21304362,
                         "name": "User 1",
+                        "mail": "",
                         "phone": ""
                     }
                 },
                 {
-                    "end": "2023-02-01 00:00:00",
                     "id": 1,
                     "start": "2023-01-01 00:00:00",
+                    "end": "2023-02-01 00:00:00",
                     "user": {
-                        "description": "",
-                        "mail": "",
-                        "id": 21304362,
                         "name": "User 2",
+                        "mail": "",
                         "phone": ""
                     }
                 },
                 {
-                    "end": "2023-02-01 00:00:00",
                     "id": 2,
                     "start": "2023-01-01 00:00:00",
+                    "end": "2023-02-01 00:00:00",
                     "user": {
-                        "description": "",
-                        "mail": "",
-                        "id": 21304362,
                         "name": "User 3",
+                        "mail": "",
                         "phone": ""
                     }
                 }
             ],
-            "year": 2023,
-            "status": 0
+            "CreatedAt": "2024-01-03T15:05:09.503045+03:00",
+            "UpdatedAt": "2024-01-03T15:05:09.503045+03:00",
+            "DeletedAt": null
         }
     ]
   }
@@ -584,76 +564,71 @@ pkg/postman içerisinde yer alan dosyayı postman uygulamasına sürükleyin.
     "intent": "cld:::shiftservice:::/shift-schedules/year/:year",
     "message": {
         "ID": 1,
-        "CreatedAt": "2024-01-03T15:05:09.503045+03:00",
-        "UpdatedAt": "2024-01-03T15:05:09.503045+03:00",
-        "DeletedAt": null,
         "alias": "Shift 1",
+        "description": "Description 1",
+        "frequency": 7,
+        "start_date": "2023-01-01T00:00:00+03:00",
+        "end_date": "2023-10-01T00:00:00+03:00",
+        "year": 2023,
+        "status": 0,
         "organization": [
             {
-                "description": "",
-                "mail": "",
-                "id": 1,
+                "id": 0,
                 "name": "Group 1",
-                "phone": ""
+                "phone": "",
+                "mail": "",
+                "description": ""
             }
         ],
         "manager": [
             {
-                "description": "",
-                "mail": "",
-                "id": 1,
+                "id": 0,
                 "name": "Manager 1",
-                "phone": ""
+                "phone": "",
+                "mail": "",
+                "description": ""
             }
         ],
-        "description": "Description 1",
-        "start_date": "2023-01-01T00:00:00+03:00",
-        "end_date": "2023-10-01T00:00:00+03:00",
         "shifts": [
             {
-                "end": "2023-02-01 00:00:00",
                 "id": 0,
                 "start": "2023-01-01 00:00:00",
+                "end": "2023-02-01 00:00:00",
                 "user": {
-                    "description": "",
-                    "mail": "",
-                    "id": 21304362,
                     "name": "User 1",
+                    "mail": "",
                     "phone": ""
                 }
             },
             {
-                "end": "2023-02-01 00:00:00",
                 "id": 1,
                 "start": "2023-01-01 00:00:00",
+                "end": "2023-02-01 00:00:00",
                 "user": {
-                    "description": "",
-                    "mail": "",
-                    "id": 21304362,
                     "name": "User 2",
+                    "mail": "",
                     "phone": ""
                 }
             },
             {
-                "end": "2023-02-01 00:00:00",
                 "id": 2,
                 "start": "2023-01-01 00:00:00",
+                "end": "2023-02-01 00:00:00",
                 "user": {
-                    "description": "",
-                    "mail": "",
-                    "id": 21304362,
                     "name": "User 3",
+                    "mail": "",
                     "phone": ""
                 }
             }
         ],
-        "year": 2023,
-        "status": 0
+        "CreatedAt": "2024-01-03T15:05:09.503045+03:00",
+        "UpdatedAt": "2024-01-03T15:05:09.503045+03:00",
+        "DeletedAt": null
     }
   }
   ```
 
-- **shift-schedules/id (delete)**
+- **shift-schedules/id (sil)**
 
   - İstek
 
@@ -671,7 +646,25 @@ pkg/postman içerisinde yer alan dosyayı postman uygulamasına sürükleyin.
   }
   ```
 
-- shift-schedules (create)
+- **shift-schedules/id/restore (geri al)**
+
+  - Request
+
+  ```bash
+    curl --location --request PATCH 'http://localhost:9097/shift-scheduler-service/shift-schedules/1/restore'
+  ```
+
+  - Response
+
+  ```json
+  {
+      "status": true,
+      "intent": "cld:::shiftservice:::/shift-schedules/:id/restore",
+      "message": "Shift Schedule Successfully Restored"
+  }
+  ```
+
+- **shift-schedules (oluştur)**
 
   - İstek
 
@@ -680,6 +673,12 @@ pkg/postman içerisinde yer alan dosyayı postman uygulamasına sürükleyin.
   --header 'Content-Type: application/json' \
   --data '{
       "alias": "Shift 2",
+      "description": "Description 1",
+      "frequency": 7,
+      "start_date": "2023-01-01T00:00:00Z",
+      "end_date": "2023-11-01T00:00:00Z",
+      "year": 2023,
+      "status": 2,
       "organization": [
           {
               "id": 0,
@@ -698,49 +697,38 @@ pkg/postman içerisinde yer alan dosyayı postman uygulamasına sürükleyin.
               "description": ""
           }
       ],
-      "description": "Description 1",
-      "start_date": "2023-01-01T00:00:00Z",
-      "end_date": "2023-11-01T00:00:00Z",
       "shifts": [
           {
-              "end": "2023-02-01 00:00:00",
               "id": 0,
               "start": "2023-01-01 00:00:00",
+              "end": "2023-02-01 00:00:00",
               "user": {
-                  "description": "",
-                  "mail": "",
-                  "id": 21304362,
                   "name": "User 1",
+                  "mail": "",
                   "phone": ""
               }
           },
           {
-              "end": "2023-02-01 00:00:00",
               "id": 1,
               "start": "2023-01-01 00:00:00",
+              "end": "2023-02-01 00:00:00",
               "user": {
-                  "description": "",
-                  "mail": "",
-                  "id": 21304362,
                   "name": "User 2",
+                  "mail": "",
                   "phone": ""
               }
           },
           {
-              "end": "2023-02-01 00:00:00",
               "id": 2,
               "start": "2023-01-01 00:00:00",
+              "end": "2023-02-01 00:00:00",
               "user": {
-                  "description": "",
-                  "mail": "",
-                  "id": 21304362,
                   "name": "User 3",
+                  "mail": "",
                   "phone": ""
               }
           }
-      ],
-      "year": 2023,
-      "status": 2
+      ]
   }'
   ```
 
@@ -754,7 +742,7 @@ pkg/postman içerisinde yer alan dosyayı postman uygulamasına sürükleyin.
   }
   ```
 
-- **shift-schedules/id (update)**
+- **shift-schedules/id (güncelle)**
 
   - İstek
 
@@ -763,6 +751,12 @@ pkg/postman içerisinde yer alan dosyayı postman uygulamasına sürükleyin.
   --header 'Content-Type: application/json' \
   --data '{
       "alias": "Shift 2",
+      "description": "Description 1",
+      "frequency": 7,
+      "start_date": "2023-01-01T00:00:00Z",
+      "end_date": "2023-11-01T00:00:00Z",
+      "year": 2029,
+      "status": 2,
       "organization": [
           {
               "id": 0,
@@ -781,49 +775,38 @@ pkg/postman içerisinde yer alan dosyayı postman uygulamasına sürükleyin.
               "description": ""
           }
       ],
-      "description": "Description 1",
-      "start_date": "2023-01-01T00:00:00Z",
-      "end_date": "2023-11-01T00:00:00Z",
       "shifts": [
           {
-              "end": "2023-02-01 00:00:00",
               "id": 0,
               "start": "2023-01-01 00:00:00",
+              "end": "2023-02-01 00:00:00",
               "user": {
-                  "description": "",
-                  "mail": "",
-                  "id": 21304362,
                   "name": "User 1",
+                  "mail": "",
                   "phone": ""
               }
           },
           {
-              "end": "2023-02-01 00:00:00",
               "id": 1,
               "start": "2023-01-01 00:00:00",
+              "end": "2023-02-01 00:00:00",
               "user": {
-                  "description": "",
-                  "mail": "",
-                  "id": 21304362,
                   "name": "User 2",
+                  "mail": "",
                   "phone": ""
               }
           },
           {
-              "end": "2023-02-01 00:00:00",
               "id": 2,
               "start": "2023-01-01 00:00:00",
+              "end": "2023-02-01 00:00:00",
               "user": {
-                  "description": "",
-                  "mail": "",
-                  "id": 21304362,
                   "name": "User 3",
+                  "mail": "",
                   "phone": ""
               }
           }
-      ],
-      "year": 2029,
-      "status": 2
+      ]
   }'
   ```
 

@@ -14,14 +14,15 @@ import (
 
 type createShiftScheduleDTO struct {
 	Alias        string       `json:"alias" binding:"required"`
-	Organization models.JSONB `json:"organization" binding:"required"`
-	Manager      models.JSONB `json:"manager" binding:"required"`
 	Description  string       `json:"description" binding:"required"`
+	Frequency    int          `json:"frequency" binding:"required"` // 1, 2, 3, 4, 5, 6, 7 (days of the week)
 	Start_Date   time.Time    `json:"start_date" binding:"required"`
 	End_Date     time.Time    `json:"end_date" binding:"required"`
-	Shifts       models.JSONB `json:"shifts" binding:"required"`
 	Year         int          `json:"year" binding:"required"`
 	Status       int          `json:"status"` // 0: pending, 1: approved, 2: rejected
+	Organization models.JSONB `json:"organization" binding:"required"`
+	Manager      models.JSONB `json:"manager" binding:"required"`
+	Shifts       models.JSONB `json:"shifts" binding:"required"`
 }
 
 // HandleCreateShiftSchedule godoc
@@ -68,12 +69,13 @@ func (ss *ShiftService) HandleCreateShiftSchedule(c *gin.Context) (int, interfac
 
 func createParamsToShiftSchedule(params *createShiftScheduleDTO, shift *models.ShiftSchedule) {
 	shift.Alias = params.Alias
-	shift.Organization = params.Organization
-	shift.Manager = params.Manager
+	shift.Frequency = params.Frequency
 	shift.Description = params.Description
 	shift.Start_Date = params.Start_Date
 	shift.End_Date = params.End_Date
-	shift.Shifts = params.Shifts
 	shift.Year = params.Year
 	shift.Status = params.Status
+	shift.Organization = params.Organization
+	shift.Manager = params.Manager
+	shift.Shifts = params.Shifts
 }

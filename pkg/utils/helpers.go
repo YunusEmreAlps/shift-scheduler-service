@@ -1,6 +1,10 @@
 package utils
 
-import "strings"
+import (
+	"shift-scheduler-service/internal/models"
+	"strings"
+	"time"
+)
 
 func UrlStringToOptions(url string) (string, string, string, string, string, string) {
 	// parse redis url to username password and host and port and db
@@ -30,4 +34,22 @@ func UrlStringToOptions(url string) (string, string, string, string, string, str
 	port := hostPortOptions[1]
 
 	return protocol, username, password, host, port, db
+}
+
+// The function calculates and sets the start and end dates for a series of shift based on user input.
+func CalculateSentryShiftTimes(startDate time.Time, frequency int, shifts []models.Shift) []models.Shift {
+	start := startDate
+	end := start.AddDate(0, 0, frequency)
+
+	for _, shift := range shifts {
+		// set start and end time for each shift
+		shift.Start = start.Format("2006-01-02 15:04:05")
+		shift.End = end.Format("2006-01-02 15:04:05")
+
+		// set start and end time for next shift
+		start = end
+		end = start.AddDate(0, 0, frequency)
+	}
+
+	return shifts
 }

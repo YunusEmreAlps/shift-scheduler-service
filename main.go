@@ -26,22 +26,18 @@ import (
 )
 
 // Path: ShiftSchedulerService/main.go
-// @Title ShiftSchedulerService API
-// @Description:
+// @Title Shift Scheduler Service API
+// @Description: Shift Scheduler Service API
 // @Version 1.0.0
 // @Schemes http https
-// @BasePath /api-shifts
-
-// @securityDefinitions.apikey BearerAuth
-// @in header
-// @name Authorization
+// @BasePath /shift-scheduler-service
 
 var isConfigSuccess = false
 
 // var equals string = strings.Repeat("=", 50)
 
+// APP_NAME = "localhost:9097/shift-scheduler-service/"
 const (
-	// APP_NAME = "localhost:9097/shift-scheduler-service/"
 	APP_NAME = "shift-scheduler-service"
 )
 
@@ -127,13 +123,14 @@ func setApplicationMode(md string, router *gin.Engine) {
 		gin.SetMode(gin.ReleaseMode)
 	} else {
 		router.Use(gin.Logger())
-		// logger time gonna be Istanbul
+		// logger time gonna be in UTC+3 (Asia/Istanbul)
 		gin.SetMode(gin.DebugMode)
 	}
 
 	// check env and set swagger
 	if !(md == "prod" || md == "production") {
 		docs.SwaggerInfo.BasePath = handlers.API_PREFIX
+		// Endpoint for swagger: http://localhost:9097/shift-scheduler-service/api-shifts/docs/index.html
 		router.GET(handlers.API_PREFIX+"/docs/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	}
 }

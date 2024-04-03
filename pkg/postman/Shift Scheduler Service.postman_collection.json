@@ -167,21 +167,12 @@
 			"response": []
 		},
 		{
-			"name": "shift-schedules",
+			"name": "shift-schedules/id/restore",
 			"request": {
-				"method": "POST",
+				"method": "PATCH",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"alias\": \"Shift 2\",\r\n    \"organization\": [\r\n        {\r\n            \"id\": 0,\r\n            \"name\": \"Group 2\",\r\n            \"mail\": \"\",\r\n            \"phone\": \"\",\r\n            \"description\": \"\"\r\n        }\r\n    ],\r\n    \"manager\": [\r\n        {\r\n            \"id\": 0,\r\n            \"name\": \"Manager 2\",\r\n            \"mail\": \"\",\r\n            \"phone\": \"\",\r\n            \"description\": \"\"\r\n        }\r\n    ],\r\n    \"description\": \"Description 1\",\r\n    \"start_date\": \"2023-01-01T00:00:00Z\",\r\n    \"end_date\": \"2023-11-01T00:00:00Z\",\r\n    \"shifts\": [\r\n        {\r\n            \"end\": \"2023-02-01 00:00:00\",\r\n            \"id\": 0,\r\n            \"start\": \"2023-01-01 00:00:00\",\r\n            \"user\": {\r\n                \"description\": \"\",\r\n                \"mail\": \"\",\r\n                \"id\": 21304362,\r\n                \"name\": \"User 1\",\r\n                \"phone\": \"\"\r\n            }\r\n        },\r\n        {\r\n            \"end\": \"2023-02-01 00:00:00\",\r\n            \"id\": 1,\r\n            \"start\": \"2023-01-01 00:00:00\",\r\n            \"user\": {\r\n                \"description\": \"\",\r\n                \"mail\": \"\",\r\n                \"id\": 21304362,\r\n                \"name\": \"User 2\",\r\n                \"phone\": \"\"\r\n            }\r\n        },\r\n        {\r\n            \"end\": \"2023-02-01 00:00:00\",\r\n            \"id\": 2,\r\n            \"start\": \"2023-01-01 00:00:00\",\r\n            \"user\": {\r\n                \"description\": \"\",\r\n                \"mail\": \"\",\r\n                \"id\": 21304362,\r\n                \"name\": \"User 3\",\r\n                \"phone\": \"\"\r\n            }\r\n        }\r\n    ],\r\n    \"year\": 2036,\r\n    \"status\": 2\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
-					"raw": "http://localhost:9097/shift-scheduler-service/shift-schedules",
+					"raw": "http://localhost:9097/shift-scheduler-service/shift-schedules/2/restore",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -189,7 +180,9 @@
 					"port": "9097",
 					"path": [
 						"shift-scheduler-service",
-						"shift-schedules"
+						"shift-schedules",
+						"2",
+						"restore"
 					]
 				}
 			},
@@ -202,7 +195,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"alias\": \"Shift 2\",\r\n    \"organization\": [\r\n        {\r\n            \"id\": 0,\r\n            \"name\": \"Group 2\",\r\n            \"mail\": \"\",\r\n            \"phone\": \"\",\r\n            \"description\": \"\"\r\n        }\r\n    ],\r\n    \"manager\": [\r\n        {\r\n            \"id\": 0,\r\n            \"name\": \"Manager 2\",\r\n            \"mail\": \"\",\r\n            \"phone\": \"\",\r\n            \"description\": \"\"\r\n        }\r\n    ],\r\n    \"description\": \"Description 1\",\r\n    \"start_date\": \"2023-01-01T00:00:00Z\",\r\n    \"end_date\": \"2023-11-01T00:00:00Z\",\r\n    \"shifts\": [\r\n        {\r\n            \"end\": \"2023-02-01 00:00:00\",\r\n            \"id\": 0,\r\n            \"start\": \"2023-01-01 00:00:00\",\r\n            \"user\": {\r\n                \"description\": \"\",\r\n                \"mail\": \"\",\r\n                \"id\": 21304362,\r\n                \"name\": \"User 1\",\r\n                \"phone\": \"\"\r\n            }\r\n        },\r\n        {\r\n            \"end\": \"2023-02-01 00:00:00\",\r\n            \"id\": 1,\r\n            \"start\": \"2023-01-01 00:00:00\",\r\n            \"user\": {\r\n                \"description\": \"\",\r\n                \"mail\": \"\",\r\n                \"id\": 21304362,\r\n                \"name\": \"User 2\",\r\n                \"phone\": \"\"\r\n            }\r\n        },\r\n        {\r\n            \"end\": \"2023-02-01 00:00:00\",\r\n            \"id\": 2,\r\n            \"start\": \"2023-01-01 00:00:00\",\r\n            \"user\": {\r\n                \"description\": \"\",\r\n                \"mail\": \"\",\r\n                \"id\": 21304362,\r\n                \"name\": \"User 3\",\r\n                \"phone\": \"\"\r\n            }\r\n        }\r\n    ],\r\n    \"year\": 2029,\r\n    \"status\": 1\r\n}",
+					"raw": "{\r\n      \"alias\": \"Shift 2\",\r\n      \"description\": \"Description 1\",\r\n      \"frequency\": 7,\r\n      \"start_date\": \"2023-01-01T00:00:00Z\",\r\n      \"end_date\": \"2023-11-01T00:00:00Z\",\r\n      \"year\": 2029,\r\n      \"status\": 2,\r\n      \"organization\": [\r\n          {\r\n              \"id\": 0,\r\n              \"name\": \"Group 2\",\r\n              \"mail\": \"\",\r\n              \"phone\": \"\",\r\n              \"description\": \"\"\r\n          }\r\n      ],\r\n      \"manager\": [\r\n          {\r\n              \"id\": 0,\r\n              \"name\": \"Manager 2\",\r\n              \"mail\": \"\",\r\n              \"phone\": \"\",\r\n              \"description\": \"\"\r\n          }\r\n      ],\r\n      \"shifts\": [\r\n          {\r\n              \"id\": 0,\r\n              \"start\": \"2023-01-01 00:00:00\",\r\n              \"end\": \"2023-02-01 00:00:00\",\r\n              \"user\": {\r\n                  \"name\": \"User 1\",\r\n                  \"mail\": \"\",\r\n                  \"phone\": \"\"\r\n              }\r\n          },\r\n          {\r\n              \"id\": 1,\r\n              \"start\": \"2023-01-01 00:00:00\",\r\n              \"end\": \"2023-02-01 00:00:00\",\r\n              \"user\": {\r\n                  \"name\": \"User 2\",\r\n                  \"mail\": \"\",\r\n                  \"phone\": \"\"\r\n              }\r\n          },\r\n          {\r\n              \"id\": 2,\r\n              \"start\": \"2023-01-01 00:00:00\",\r\n              \"end\": \"2023-02-01 00:00:00\",\r\n              \"user\": {\r\n                  \"name\": \"User 3\",\r\n                  \"mail\": \"\",\r\n                  \"phone\": \"\"\r\n              }\r\n          }\r\n      ]\r\n  }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -220,6 +213,35 @@
 						"shift-scheduler-service",
 						"shift-schedules",
 						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "shift-schedules",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n      \"alias\": \"Shift 2\",\r\n      \"description\": \"Description 1\",\r\n      \"frequency\": 7,\r\n      \"start_date\": \"2023-01-01T00:00:00Z\",\r\n      \"end_date\": \"2023-11-01T00:00:00Z\",\r\n      \"year\": 2029,\r\n      \"status\": 2,\r\n      \"organization\": [\r\n          {\r\n              \"id\": 0,\r\n              \"name\": \"Group 2\",\r\n              \"mail\": \"\",\r\n              \"phone\": \"\",\r\n              \"description\": \"\"\r\n          }\r\n      ],\r\n      \"manager\": [\r\n          {\r\n              \"id\": 0,\r\n              \"name\": \"Manager 2\",\r\n              \"mail\": \"\",\r\n              \"phone\": \"\",\r\n              \"description\": \"\"\r\n          }\r\n      ],\r\n      \"shifts\": [\r\n          {\r\n              \"id\": 0,\r\n              \"start\": \"2023-01-01 00:00:00\",\r\n              \"end\": \"2023-02-01 00:00:00\",\r\n              \"user\": {\r\n                  \"name\": \"User 1\",\r\n                  \"mail\": \"\",\r\n                  \"phone\": \"\"\r\n              }\r\n          },\r\n          {\r\n              \"id\": 1,\r\n              \"start\": \"2023-01-01 00:00:00\",\r\n              \"end\": \"2023-02-01 00:00:00\",\r\n              \"user\": {\r\n                  \"name\": \"User 2\",\r\n                  \"mail\": \"\",\r\n                  \"phone\": \"\"\r\n              }\r\n          },\r\n          {\r\n              \"id\": 2,\r\n              \"start\": \"2023-01-01 00:00:00\",\r\n              \"end\": \"2023-02-01 00:00:00\",\r\n              \"user\": {\r\n                  \"name\": \"User 3\",\r\n                  \"mail\": \"\",\r\n                  \"phone\": \"\"\r\n              }\r\n          }\r\n      ]\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9097/shift-scheduler-service/shift-schedules",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9097",
+					"path": [
+						"shift-scheduler-service",
+						"shift-schedules"
 					]
 				}
 			},

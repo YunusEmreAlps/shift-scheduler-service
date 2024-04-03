@@ -107,6 +107,12 @@ func (bs *ShiftService) InitRouter(r *gin.Engine) {
 		respondJson(ctx, code, RN_PREFIX+"/shift-schedules/deleted", data, err)
 	})
 
+	// Get calculated shift schedules calendar by repeated frequency and date range (start_date, end_date)
+	/*v1.GET("/shift-schedules/:id/calendar", func(ctx *gin.Context) {
+		code, data, err := bs.HandleGetShiftScheduleCalendar(ctx)
+		respondJson(ctx, code, RN_PREFIX+"/shift-schedules/:id/calendar", data, err)
+	})*/
+
 	// Create shift schedule
 	v1.POST("/shift-schedules", func(ctx *gin.Context) {
 		code, data, err := bs.HandleCreateShiftSchedule(ctx)
@@ -119,10 +125,16 @@ func (bs *ShiftService) InitRouter(r *gin.Engine) {
 		respondJson(ctx, code, RN_PREFIX+"/shift-schedules/:id", data, err)
 	})
 
-	// Delete shift schedule
+	// Delete shift schedule (Soft delete)
 	v1.DELETE("/shift-schedules/:id", func(ctx *gin.Context) {
 		code, data, err := bs.HandleDeleteShiftSchedule(ctx)
 		respondJson(ctx, code, RN_PREFIX+"/shift-schedules/:id", data, err)
+	})
+
+	// Restore shift schedule
+	v1.PATCH("/shift-schedules/:id/restore", func(ctx *gin.Context) {
+		code, data, err := bs.HandleRestoreShiftSchedule(ctx)
+		respondJson(ctx, code, RN_PREFIX+"/shift-schedules/:id/restore", data, err)
 	})
 
 	// Health check
