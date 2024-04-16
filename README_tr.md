@@ -50,7 +50,7 @@ make run // hata ayıklayıcı eklemek veya projeyi yeniden oluşturmak/çalış
 docker-compose -f docker-compose.local.yml up
 ```
 
-- API'ye `http://localhost:9097` kullanarak erişin
+Yukarıdaki komutu çalıştırdıktan sonra, Shift Scheduler Hizmeti `http://localhost:9097` üzerinde çalışıyor olacaktır. Ancak veritabanında tablolar oluşturmanız gerekir. Otomatik geçiş henüz uygulanmamıştır. DBeaver veya başka bir veritabanı yönetim aracı ile tabloya bağlanabilir ve `migrations` klasöründeki geçiş komut dosyalarını çalıştırabilirsiniz.
 
 #### Docker geliştirme kullanımı
 
@@ -205,7 +205,7 @@ Burada açıklanan proje yapısının gerçek projede bulunan tüm dizinleri ve 
 
 ### Örnek API İsteği ve Yanıtı
 
-pkg/postman içerisinde yer alan dosyayı postman uygulamasına sürükleyin. 
+pkg/postman içerisinde yer alan dosyayı postman uygulamasına sürükleyin.
 
 - **health-check**
 

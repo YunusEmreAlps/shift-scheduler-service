@@ -1,4 +1,4 @@
-# Shift Scheduluer Service
+# Shift Scheduler Service
 
 This service that allows users to manage their shift periods and create their shift lists. This service allows users to select which days and times they will be on duty in a given date range and create their shifts. In addition, users can view the shift roster for their shift period, and makeshift change requests, and have the option to delete or update existing shifts. Through notifications, users can be notified of updates related to their shift periods. The Shift Service provides a user-friendly platform that helps users to schedule shifts in an organized manner and manage their roster.
 
@@ -50,7 +50,7 @@ make run // it's easier way to attach debugger or rebuild/rerun project
 docker-compose -f docker-compose.local.yml up -d
 ```
 
-- Access API using `http://localhost:9097`
+After running the above command, the Shift Scheduler Service will be running on `http://localhost:9097`. But you need to create tables in the database. Auto migration is not implemented yet. You can connect to the the table with DBeaver or any other database management tool and run migration scripts in the `migrations` folder.
 
 #### Docker development usage
 
@@ -205,6 +205,8 @@ It is important to note that the project structure described here may not includ
 ![Private API Request Flow](https://github.com/amitshekhariitbhu/go-backend-clean-architecture/blob/main/assets/go-arch-private-api-request-flow.png?raw=true)
 
 ### Example API Request and Response
+
+Drag the file in **pkg/postman** to the postman application. You can see the example API requests and responses.
 
 - **health-check**
 
