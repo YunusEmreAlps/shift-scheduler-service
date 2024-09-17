@@ -16,7 +16,7 @@ import (
 // @Summary get all shift schedules
 // @Schemes
 // @Description get all shift schedules
-// @Tags shift schedules
+// @Tags Shift
 // @Accept json
 // @Produce json
 // @Security BearerAuth
@@ -24,12 +24,11 @@ import (
 // @Failure 400 {object} RespondJson "cannot get all shift schedules due to invalid request body"
 // @Failure 422 {object} RespondJson "cannot get all shift schedules due to invalid request body"
 // @Failure 500 {object} RespondJson "cannot get all shift schedules due to internal server error"
-// @Router /shift-scheduler-service/shift-schedules [get]
-
+// @Router /shift-schedules [get]
 func (ss *ShiftService) HandleGetAllShiftSchedules(c *gin.Context) (int, interface{}, error) {
 	// Step 1: Get all shifts from database
-	var shift_schedules []models.ShiftSchedule
-	if err := ss.db.Find(&shift_schedules).Error; err != nil {
+	var shiftSchedules []models.ShiftSchedule
+	if err := ss.db.Find(&shiftSchedules).Error; err != nil {
 		r, i := httpErrors.ErrorResponse(err)
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return r, i, errors.New("cannot get all shift schedules due to not found")
@@ -38,5 +37,5 @@ func (ss *ShiftService) HandleGetAllShiftSchedules(c *gin.Context) (int, interfa
 	}
 
 	// Step 2: Return all shifts
-	return http.StatusOK, shift_schedules, nil
+	return http.StatusOK, shiftSchedules, nil
 }

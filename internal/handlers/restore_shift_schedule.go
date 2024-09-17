@@ -16,16 +16,16 @@ import (
 // @Summary restore a shift schedule
 // @Schemes
 // @Description restored a shift schedule
-// @Tags shift schedule
+// @Tags Shift
 // @Accept json
 // @Produce json
 // @Security BearerAuth
+// @Param id path string true "Shift Schedule ID"
 // @Success 200 {object} RespondJson "successfully restored shift schedule"
 // @Failure 400 {object} RespondJson "cannot restore shift schedule due to invalid request body"
 // @Failure 422 {object} RespondJson "cannot restore shift schedule due to invalid request body"
 // @Failure 500 {object} RespondJson "cannot restore shift schedule due to internal server error"
-// @Router /shift-scheduler-service/shift-schedules/{id}/restore [restore]
-
+// @Router /shift-schedules/{id}/restore [patch]
 func (ss *ShiftService) HandleRestoreShiftSchedule(c *gin.Context) (int, interface{}, error) {
 	// Step 1: Get shift schedule id from path	and validate
 	id := c.Param("id")

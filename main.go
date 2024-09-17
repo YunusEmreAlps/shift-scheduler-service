@@ -25,11 +25,15 @@ import (
 	"shift-scheduler-service/pkg/logger"
 )
 
-// Path: ShiftSchedulerService/main.go
-// @Title Shift Scheduler Service API
-// @Description: Shift Scheduler Service API
-// @Version 1.0.0
-// @Schemes http https
+// @title Shift Scheduler Service API
+// @description: Shift Scheduler Service API
+// @version 1.0.0
+// @schemes http https
+
+// @contact.name   Yunus Emre Alpu
+// @contact.url    https://yunusemrealpu.netlify.app
+// @contact.email  YunusAlpu@icloud.com
+
 // @BasePath /shift-scheduler-service
 
 var isConfigSuccess = false
@@ -130,7 +134,7 @@ func setApplicationMode(md string, router *gin.Engine) {
 	// check env and set swagger
 	if !(md == "prod" || md == "production") {
 		docs.SwaggerInfo.BasePath = handlers.API_PREFIX
-		// Endpoint for swagger: http://localhost:9097/shift-scheduler-service/api-shifts/docs/index.html
-		router.GET(handlers.API_PREFIX+"/docs/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+		// Endpoint for swagger: http://localhost:9097/shift-scheduler-service/swagger/index.html
+		router.GET(handlers.API_PREFIX+"/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	}
 }

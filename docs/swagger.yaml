@@ -1,213 +1,452 @@
-basePath: /api-shifts
+basePath: /shift-scheduler-service
 definitions:
   handlers.RespondJson:
     properties:
       intent:
-        example: bbrn:::SERVICE_NAME:::/upload
         type: string
       message: {}
       status:
-        example: true
         type: boolean
     type: object
+  handlers.updateShiftScheduleDTO:
+    properties:
+      alias:
+        type: string
+      description:
+        type: string
+      end_date:
+        type: string
+      frequency:
+        description: 1, 2, 3, 4, 5, 6, 7 (days of the week)
+        type: integer
+      manager:
+        items: {}
+        type: array
+      organization:
+        items: {}
+        type: array
+      shifts:
+        items: {}
+        type: array
+      start_date:
+        type: string
+      status:
+        description: '0: pending, 1: approved, 2: rejected'
+        type: integer
+      users:
+        items: {}
+        type: array
+      year:
+        type: integer
+    required:
+    - alias
+    - description
+    - end_date
+    - frequency
+    - manager
+    - organization
+    - shifts
+    - start_date
+    - users
+    - year
+    type: object
 info:
-  contact: {}
-  description: 'tt.app.ShiftService : microservice for layout.'
-  title: ShiftService API
+  contact:
+    email: YunusAlpu@icloud.com
+    name: Yunus Emre Alpu
+    url: https://yunusemrealpu.netlify.app
+  title: Shift Scheduler Service API
   version: 1.0.0
 paths:
-  /shifts:
-    get:
+  /shift-schedule/{id}:
+    put:
       consumes:
       - application/json
-      description: get shifts by dto
+      description: update a shift schedule
       parameters:
-      - in: query
-        maximum: 50
-        minimum: 1
-        name: limit
-        type: integer
-      - in: query
-        maximum: 100
-        minimum: 1
-        name: page
-        type: integer
+      - description: Shift Schedule ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: update shift schedule
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.updateShiftScheduleDTO'
       produces:
       - application/json
       responses:
         "200":
-          description: get shifts by success
+          description: successfully updated shift schedule
           schema:
             $ref: '#/definitions/handlers.RespondJson'
         "400":
-          description: invalid pagination query
+          description: cannot update shift schedule due to invalid request body
           schema:
             $ref: '#/definitions/handlers.RespondJson'
         "422":
-          description: shifts not found
+          description: cannot update shift schedule due to invalid request body
           schema:
             $ref: '#/definitions/handlers.RespondJson'
         "500":
-          description: internal server error
+          description: cannot update shift schedule due to internal server error
           schema:
             $ref: '#/definitions/handlers.RespondJson'
       security:
       - BearerAuth: []
-      summary: get shifts by dto
+      summary: update a shift schedule
       tags:
-      - shifts
-  /todos:
+      - Shift
+  /shift-schedules:
     get:
       consumes:
       - application/json
-      description: get todos by pagination
-      parameters:
-      - in: query
-        maximum: 50
-        minimum: 1
-        name: limit
-        type: integer
-      - in: query
-        maximum: 100
-        minimum: 1
-        name: page
-        type: integer
+      description: get all shift schedules
       produces:
       - application/json
       responses:
         "200":
-          description: get todos by pagination success
+          description: get all shift schedules successfully
           schema:
             $ref: '#/definitions/handlers.RespondJson'
         "400":
-          description: 'invalid pagination query: page,limit'
+          description: cannot get all shift schedules due to invalid request body
           schema:
             $ref: '#/definitions/handlers.RespondJson'
-        "404":
-          description: todos not found
+        "422":
+          description: cannot get all shift schedules due to invalid request body
           schema:
             $ref: '#/definitions/handlers.RespondJson'
         "500":
-          description: internal server error
+          description: cannot get all shift schedules due to internal server error
           schema:
             $ref: '#/definitions/handlers.RespondJson'
       security:
       - BearerAuth: []
-      summary: get todos by pagination
+      summary: get all shift schedules
       tags:
-      - Todos
-  /upload:
+      - Shift
     post:
       consumes:
-      - multipart/form-data
-      description: upload file
+      - application/json
+      description: create a new shift schedule
       parameters:
-      - description: file
-        in: formData
-        name: file
+      - description: Alias
+        in: body
+        name: alias
         required: true
-        type: file
+        schema:
+          type: string
+      - description: Description
+        in: body
+        name: description
+        required: true
+        schema:
+          type: string
+      - description: Frequency
+        in: body
+        name: frequency
+        required: true
+        schema:
+          type: integer
+      - description: Start Date
+        in: body
+        name: start_date
+        required: true
+        schema:
+          type: string
+      - description: End Date
+        in: body
+        name: end_date
+        required: true
+        schema:
+          type: string
+      - description: Year
+        in: body
+        name: year
+        required: true
+        schema:
+          type: integer
+      - description: Status
+        in: body
+        name: status
+        required: true
+        schema:
+          type: integer
+      - description: Organization
+        in: body
+        name: organization
+        required: true
+        schema:
+          type: object
+      - description: Manager
+        in: body
+        name: manager
+        required: true
+        schema:
+          type: object
+      - description: Users
+        in: body
+        name: users
+        required: true
+        schema:
+          type: object
+      - description: Shifts
+        in: body
+        name: shifts
+        required: true
+        schema:
+          type: object
       produces:
-      - '*/*'
+      - application/json
       responses:
         "200":
-          description: uploaded file name
-          schema:
-            type: string
-        "401":
-          description: Unauthorized
+          description: successfully created shift schedule
           schema:
             $ref: '#/definitions/handlers.RespondJson'
-        "403":
-          description: Forbidden
+        "400":
+          description: cannot create shift schedule due to invalid request body
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+        "422":
+          description: cannot create shift schedule due to invalid request body
           schema:
             $ref: '#/definitions/handlers.RespondJson'
         "500":
-          description: Internal Server Error
+          description: cannot create shift schedule due to internal server error
           schema:
             $ref: '#/definitions/handlers.RespondJson'
-      summary: upload file
+      security:
+      - BearerAuth: []
+      summary: create a new shift schedule
       tags:
-      - Upload
-  /uploads/{filename}:
-    get:
+      - Shift
+  /shift-schedules/{id}:
+    delete:
       consumes:
-      - '*/*'
-      description: retrieve uploaded file by filename
+      - application/json
+      description: delete a shift schedule
       parameters:
-      - description: filename
+      - description: Shift Schedule ID
         in: path
-        name: filename
+        name: id
         required: true
         type: string
       produces:
-      - '*/*'
-      responses:
-        "200":
-          description: file content
-          schema:
-            type: string
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/handlers.RespondJson'
-        "403":
-          description: Forbidden
-          schema:
-            $ref: '#/definitions/handlers.RespondJson'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/handlers.RespondJson'
-      summary: retrieve uploaded file by filename
-      tags:
-      - Upload
-  /users:
-    get:
-      consumes:
-      - application/json
-      description: get users by dto
-      parameters:
-      - in: query
-        maximum: 50
-        minimum: 1
-        name: limit
-        type: integer
-      - in: query
-        maximum: 100
-        minimum: 1
-        name: page
-        type: integer
-      produces:
       - application/json
       responses:
         "200":
-          description: get shifts by success
+          description: successfully deleted shift schedule
           schema:
             $ref: '#/definitions/handlers.RespondJson'
         "400":
-          description: invalid pagination query
+          description: cannot delete shift schedule due to invalid request body
           schema:
             $ref: '#/definitions/handlers.RespondJson'
         "422":
-          description: shifts not found
+          description: cannot delete shift schedule due to invalid request body
           schema:
             $ref: '#/definitions/handlers.RespondJson'
         "500":
-          description: internal server error
+          description: cannot delete shift schedule due to internal server error
           schema:
             $ref: '#/definitions/handlers.RespondJson'
       security:
       - BearerAuth: []
-      summary: get users by dto
+      summary: delete a shift schedule
       tags:
-      - users
+      - Shift
+  /shift-schedules/{id}/restore:
+    patch:
+      consumes:
+      - application/json
+      description: restored a shift schedule
+      parameters:
+      - description: Shift Schedule ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: successfully restored shift schedule
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+        "400":
+          description: cannot restore shift schedule due to invalid request body
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+        "422":
+          description: cannot restore shift schedule due to invalid request body
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+        "500":
+          description: cannot restore shift schedule due to internal server error
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+      security:
+      - BearerAuth: []
+      summary: restore a shift schedule
+      tags:
+      - Shift
+  /shift-schedules/{year}:
+    get:
+      consumes:
+      - application/json
+      description: get a shift schedules by year
+      parameters:
+      - description: Shift Schedule Year
+        in: path
+        name: year
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: get shifts by year successfully
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+        "400":
+          description: cannot get shifts schedule by year due to invalid request body
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+        "422":
+          description: cannot get shifts schedule by year due to invalid request body
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+        "500":
+          description: cannot get shifts schedule by year due to internal server error
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+      security:
+      - BearerAuth: []
+      summary: get a shift schedules by year
+      tags:
+      - Shift
+  /shift-schedules/deleted:
+    get:
+      consumes:
+      - application/json
+      description: get all deleted shift schedules
+      parameters:
+      - description: Shift Schedule ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: get all shift schedules successfully
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+        "400":
+          description: cannot get only deleted shift schedules due to invalid request
+            body
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+        "422":
+          description: cannot get only deleted shift schedules due to invalid request
+            body
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+        "500":
+          description: cannot get only deleted shift schedules due to internal server
+            error
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+      security:
+      - BearerAuth: []
+      summary: get all deleted shift schedules
+      tags:
+      - Shift
+  /shift-schedules/id:
+    get:
+      consumes:
+      - application/json
+      description: get a shift schedule by id
+      parameters:
+      - description: Shift Schedule ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: get shift by id successfully
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+        "400":
+          description: cannot get shift schedule by id due to invalid request body
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+        "422":
+          description: cannot get shift schedule by id due to invalid request body
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+        "500":
+          description: cannot get shift schedule by id due to internal server error
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+      security:
+      - BearerAuth: []
+      summary: get a shift schedule by id
+      tags:
+      - Shift
+  /shift-schedules/paginated:
+    get:
+      consumes:
+      - application/json
+      description: get all shift schedules with pagination
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: size
+        in: query
+        name: size
+        type: string
+      - description: orderBy
+        in: query
+        name: orderBy
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: get all shift schedules successfully
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+        "400":
+          description: cannot get shift schedules  with pagination due to invalid
+            request body
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+        "422":
+          description: cannot get shift schedules  with pagination due to invalid
+            request body
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+        "500":
+          description: cannot get shift schedules  with pagination due to internal
+            server error
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+      security:
+      - BearerAuth: []
+      summary: get all shift schedules with pagination
+      tags:
+      - Shift
 schemes:
 - http
 - https
-securityDefinitions:
-  BearerAuth:
-    in: header
-    name: Authorization
-    type: apiKey
 swagger: "2.0"

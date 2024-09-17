@@ -22,6 +22,7 @@ type createShiftScheduleDTO struct {
 	Status       int          `json:"status"` // 0: pending, 1: approved, 2: rejected
 	Organization models.JSONB `json:"organization" binding:"required"`
 	Manager      models.JSONB `json:"manager" binding:"required"`
+	Users        models.JSONB `json:"users" binding:"required"`
 	Shifts       models.JSONB `json:"shifts" binding:"required"`
 }
 
@@ -30,16 +31,26 @@ type createShiftScheduleDTO struct {
 // @Summary create a new shift schedule
 // @Schemes
 // @Description create a new shift schedule
-// @Tags shift schedule
+// @Tags Shift
 // @Accept json
 // @Produce json
 // @Security BearerAuth
+// @Param alias body string true "Alias"
+// @Param description body string true "Description"
+// @Param frequency body int true "Frequency"
+// @Param start_date body string true "Start Date"
+// @Param end_date body string true "End Date"
+// @Param year body int true "Year"
+// @Param status body int true "Status"
+// @Param organization body object true "Organization"
+// @Param manager body object true "Manager"
+// @Param users body object true "Users"
+// @Param shifts body object true "Shifts"
 // @Success 200 {object} RespondJson "successfully created shift schedule"
 // @Failure 400 {object} RespondJson "cannot create shift schedule due to invalid request body"
 // @Failure 422 {object} RespondJson "cannot create shift schedule due to invalid request body"
 // @Failure 500 {object} RespondJson "cannot create shift schedule due to internal server error"
-// @Router /shift-scheduler-service/shift-schedules [post]
-
+// @Router /shift-schedules [post]
 func (ss *ShiftService) HandleCreateShiftSchedule(c *gin.Context) (int, interface{}, error) {
 	// Step 1: Get shift schedule from request body
 	var params createShiftScheduleDTO
@@ -51,11 +62,11 @@ func (ss *ShiftService) HandleCreateShiftSchedule(c *gin.Context) (int, interfac
 	// }
 
 	// Step 2: Validate shift schedule
-	var shift_schedule models.ShiftSchedule
-	createParamsToShiftSchedule(&params, &shift_schedule)
+	var shiftSchedule models.ShiftSchedule
+	createParamsToShiftSchedule(&params, &shiftSchedule)
 
 	// Step 3: Create shift schedule in database
-	if err := ss.db.Create(&shift_schedule).Error; err != nil {
+	if err := ss.db.Create(&shiftSchedule).Error; err != nil {
 		r, i := httpErrors.ErrorResponse(err)
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return r, i, errors.New("cannot create shift schedule due to not found")
@@ -77,5 +88,6 @@ func createParamsToShiftSchedule(params *createShiftScheduleDTO, shift *models.S
 	shift.Status = params.Status
 	shift.Organization = params.Organization
 	shift.Manager = params.Manager
+	shift.Users = params.Users
 	shift.Shifts = params.Shifts
 }

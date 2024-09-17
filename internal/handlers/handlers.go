@@ -107,12 +107,6 @@ func (bs *ShiftService) InitRouter(r *gin.Engine) {
 		respondJson(ctx, code, RN_PREFIX+"/shift-schedules/deleted", data, err)
 	})
 
-	// Get calculated shift schedules calendar by repeated frequency and date range (start_date, end_date)
-	/*v1.GET("/shift-schedules/:id/calendar", func(ctx *gin.Context) {
-		code, data, err := bs.HandleGetShiftScheduleCalendar(ctx)
-		respondJson(ctx, code, RN_PREFIX+"/shift-schedules/:id/calendar", data, err)
-	})*/
-
 	// Create shift schedule
 	v1.POST("/shift-schedules", func(ctx *gin.Context) {
 		code, data, err := bs.HandleCreateShiftSchedule(ctx)

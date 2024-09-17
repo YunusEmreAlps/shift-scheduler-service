@@ -17,6 +17,7 @@ type ShiftSchedule struct {
 	Status       int       `json:"status" gorm:"not null; default:0"` // 0: pending, 1: approved, 2: rejected
 	Organization JSONB     `json:"organization" gorm:"type:jsonb;not null"`
 	Manager      JSONB     `json:"manager" gorm:"type:jsonb;not null"`
+	Users        JSONB     `json:"users" gorm:"type:jsonb;not null"`
 	Shifts       JSONB     `json:"shifts" gorm:"type:jsonb;"`
 }
 

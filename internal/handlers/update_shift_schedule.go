@@ -22,6 +22,7 @@ type updateShiftScheduleDTO struct {
 	Status       int          `json:"status"` // 0: pending, 1: approved, 2: rejected
 	Organization models.JSONB `json:"organization" binding:"required"`
 	Manager      models.JSONB `json:"manager" binding:"required"`
+	Users        models.JSONB `json:"users" binding:"required"`
 	Shifts       models.JSONB `json:"shifts" binding:"required"`
 }
 
@@ -30,16 +31,17 @@ type updateShiftScheduleDTO struct {
 // @Summary update a shift schedule
 // @Schemes
 // @Description update a shift schedule
-// @Tags shift schedule
+// @Tags Shift
 // @Accept json
 // @Produce json
 // @Security BearerAuth
+// @Param id path string true "Shift Schedule ID"
+// @Param body body updateShiftScheduleDTO true "update shift schedule"
 // @Success 200 {object} RespondJson "successfully updated shift schedule"
 // @Failure 400 {object} RespondJson "cannot update shift schedule due to invalid request body"
 // @Failure 422 {object} RespondJson "cannot update shift schedule due to invalid request body"
 // @Failure 500 {object} RespondJson "cannot update shift schedule due to internal server error"
-// @Router /shift-scheduler-service/budget-proposals/{id} [put]
-
+// @Router /shift-schedule/{id} [put]
 func (ss *ShiftService) HandleUpdateShiftSchedule(c *gin.Context) (int, interface{}, error) {
 	// Step 1: Get shift id from path and validate it
 	id := c.Param("id")
@@ -85,5 +87,6 @@ func updateParamsToShiftSchedule(params *updateShiftScheduleDTO, shift *models.S
 	shift.Status = params.Status
 	shift.Organization = params.Organization
 	shift.Manager = params.Manager
+	shift.Users = params.Users
 	shift.Shifts = params.Shifts
 }

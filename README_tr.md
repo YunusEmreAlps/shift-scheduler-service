@@ -2,6 +2,33 @@
 
 Kullanıcıların vardiya dönemlerini yönetmelerini ve vardiya listelerini oluşturmalarını sağlayan hizmettir. Bu hizmet, kullanıcıların belirli bir tarih aralığında hangi gün ve saatlerde görevde olacaklarını seçmelerine ve vardiyalarını oluşturmalarına olanak tanır. Buna ek olarak, kullanıcılar vardiya dönemlerine ait vardiya listesini ve geçici değişiklik taleplerini görüntüleyebilir ve mevcut vardiyaları silme veya güncelleme seçeneğine sahip olabilirler. Bildirimler aracılığıyla kullanıcılar vardiya dönemleriyle ilgili güncellemelerden haberdar edilebilmektedir. Vardiya Hizmeti, kullanıcıların vardiyalarını düzenli bir şekilde planlamalarına ve vardiya listelerini yönetmelerine yardımcı olan kullanıcı dostu bir platform sağlar.
 
+## Table of Contents
+
+- [Nöbet Planlama Hizmeti](#nöbet-planlama-hizmeti)
+  - [Table of Contents](#table-of-contents)
+  - [Özellikler](#özellikler)
+  - [Hızlı başlangıç](#hızlı-başlangıç)
+    - [Docker ile çalıştır](#docker-ile-çalıştır)
+      - [Docker geliştirme kullanımı](#docker-geliştirme-kullanımı)
+    - [SWAGGER UI](#swagger-ui)
+    - [Jaeger UI](#jaeger-ui)
+    - [Prometheus UI](#prometheus-ui)
+    - [Grafana UI](#grafana-ui)
+    - [Proje yapısı](#proje-yapısı)
+      - [`assets`](#assets)
+      - [`config`](#config)
+      - [`docs`](#docs)
+      - [`/internal`](#internal)
+      - [`/pkg`](#pkg)
+      - [`handlers`](#handlers)
+    - [Bu projede kullanılan başlıca paketler](#bu-projede-kullanılan-başlıca-paketler)
+    - [Veritabanı Diyagramı](#veritabanı-diyagramı)
+    - [API İstek Akışı](#api-istek-akışı)
+    - [Postman](#postman)
+    - [Swagger](#swagger)
+    - [İletişim](#iletişim)
+
+
 ## Özellikler
 
 - CRUD işlemleri için RESTful API uç noktaları.
@@ -12,11 +39,6 @@ Kullanıcıların vardiya dönemlerini yönetmelerini ve vardiya listelerini olu
 - Redis önbelleği.
 - Kolay kurulum ve dağıtım için Dockerized uygulama.
 - Grafana, Prometheus ve Jaeger
-
-## İçerik
-
-- [Hızlı başlangıç](#hızlı-başlangıç)
-- [Proje yapısı](#proje-yapısı)
 
 ## Hızlı başlangıç
 
@@ -47,10 +69,10 @@ make run // hata ayıklayıcı eklemek veya projeyi yeniden oluşturmak/çalış
 ```
 
 ```bash
-docker-compose -f docker-compose.local.yml up
+docker-compose -f docker-compose.local.yml up -d
 ```
 
-Yukarıdaki komutu çalıştırdıktan sonra, Shift Scheduler Hizmeti `http://localhost:9097` üzerinde çalışıyor olacaktır. Ancak veritabanında tablolar oluşturmanız gerekir. Otomatik geçiş henüz uygulanmamıştır. DBeaver veya başka bir veritabanı yönetim aracı ile tabloya bağlanabilir ve `migrations` klasöründeki geçiş komut dosyalarını çalıştırabilirsiniz.
+- API'ye `http://localhost:9097` kullanarak erişin
 
 #### Docker geliştirme kullanımı
 
@@ -64,19 +86,19 @@ make docker
 https://localhost:5000/swagger/index.html
 ```
 
-### Jaeger Kullanıcı Arayüzü
+### Jaeger UI
 
 ```bash
 http://localhost:16686
 ```
 
-### Prometheus Kullanıcı Arayüzü
+### Prometheus UI
 
 ```bash
 http://localhost:9090
 ```
 
-### Grafana Kullanıcı Arayüzü
+### Grafana UI
 
 ```bash
 http://localhost:3000
@@ -194,628 +216,29 @@ Burada açıklanan proje yapısının gerçek projede bulunan tüm dizinleri ve 
 
 ![DB](/assets/v1_db.png)
 
+## API İstek Akışı
 
-## JWT Kimlik Doğrulama Ara Katmanı olmadan Genel API İstek Akışı
+- ![Public API Request Flow](https://github.com/amitshekhariitbhu/go-backend-clean-architecture/blob/main/assets/go-arch-public-api-request-flow.png?raw=true)
+- ![Private API Request Flow](https://github.com/amitshekhariitbhu/go-backend-clean-architecture/blob/main/assets/go-arch-private-api-request-flow.png?raw=true)
 
-![Public API Request Flow](https://github.com/amitshekhariitbhu/go-backend-clean-architecture/blob/main/assets/go-arch-public-api-request-flow.png?raw=true)
+## Postman
 
-## JWT Kimlik Doğrulama Ara Katmanı ile Özel API İstek Akışı
+Nöbet planlama projesi için Postman koleksiyonu postman dizininde bulunabilir. Uygulama ile etkileşim kurmak için kullanılabilecek bir dizi API isteği içerir. Aşağıdaki adımları izleyerek koleksiyonu Postman'e aktarabilirsiniz:
 
-![Private API Request Flow](https://github.com/amitshekhariitbhu/go-backend-clean-architecture/blob/main/assets/go-arch-private-api-request-flow.png?raw=true)
+1. Postman'ı açın
+2. Sol üst köşedeki “İçe Aktar” düğmesine tıklayın
+3. Shift_Scheduler_Service.postman_collection.json](/pkg/postman/Shift_Scheduler_Service.postman_collection.json) dosyasını içe aktarma penceresine sürükleyip bırakın
+4. Koleksiyon Postman'a aktarılır ve uygulama ile etkileşim kurmak için API isteklerini kullanmaya başlayabilirsiniz
 
-### Örnek API İsteği ve Yanıtı
+## Swagger
 
-pkg/postman içerisinde yer alan dosyayı postman uygulamasına sürükleyin.
+Nöbet planlama projesi için Swagger belgelerine aşağıdaki adımlar izlenerek erişilebilir:
 
-- **health-check**
+1. Projeyi çalıştırdıktan sonra, bir web tarayıcısı açın ve Swagger belgelerine erişmek için `http://localhost:9097/shift-scheduler-service/swagger/index.html` adresine gidin
+2. Projeye yeni bir API uç noktası eklediğinizde, yeni uç nokta için Swagger belgelerini oluşturmak üzere `swag init` komutunu çalıştırmanız gerekir. Bu komut `docs` dizinini yeni Swagger dokümantasyonu ile güncelleyecektir.
 
-  - İstek
+## İletişim
 
-  ```bash
-    curl --location 'http://localhost:9097/shift-scheduler-service/health'
-  ```
+Her türlü soru veya destek için lütfen bizimle iletişime geçin:
 
-  - Yanıt
-
-  ```json
-  {
-      "message": "Shift Scheduler Service 1.0.0 is running on port 9097.",
-      "status": true
-  }
-  ```
-
-- **shift-schedules**
-
-  - İstek
-
-  ```bash
-    curl --location 'http://localhost:9097/shift-scheduler-service/shift-schedules'
-  ```
-
-  - Yanıt
-
-  ```json
-  {
-    "status": true,
-    "intent": "cld:::shiftservice:::/shift-schedules",
-    "message": [
-        {
-            "ID": 0,
-            "alias": "Shift 1",
-            "description": "Description 1",
-            "frequency": 7,
-            "start_date": "2023-01-01T00:00:00+03:00",
-            "end_date": "2023-10-01T00:00:00+03:00",
-            "year": 2023,
-            "status": 0,
-            "organization": [
-                {
-                    "id": 0,
-                    "name": "Group 1",
-                    "phone": "",
-                    "mail": "",
-                    "description": ""
-                }
-            ],
-            "manager": [
-                {
-                    "id": 0,
-                    "name": "Manager 1",
-                    "phone": "",
-                    "mail": "",
-                    "description": ""
-                }
-            ],
-            "shifts": [
-                {
-                    "id": 0,
-                    "start": "2023-01-01 00:00:00",
-                    "end": "2023-02-01 00:00:00",
-                    "user": {
-                        "name": "User 1",
-                        "mail": "",
-                        "phone": ""
-                    }
-                },
-                {
-                    "id": 1,
-                    "start": "2023-01-01 00:00:00",
-                    "end": "2023-02-01 00:00:00",
-                    "user": {
-                        "name": "User 2",
-                        "mail": "",
-                        "phone": ""
-                    }
-                },
-                {
-                    "id": 2,
-                    "start": "2023-01-01 00:00:00",
-                    "end": "2023-02-01 00:00:00",
-                    "user": {
-                        "name": "User 3",
-                        "mail": "",
-                        "phone": ""
-                    }
-                }
-            ],
-            "CreatedAt": "2024-01-03T15:05:09.503045+03:00",
-            "UpdatedAt": "2024-01-03T15:05:09.503045+03:00",
-            "DeletedAt": null,
-        }
-    ]
-  }
-  ```
-
-- **shift-schedules/id**
-
-  - İstek
-
-  ```bash
-    curl --location 'http://localhost:9097/shift-scheduler-service/shift-schedules/1'
-  ```
-
-  - Yanıt
-
-  ```json
-  {
-    "status": true,
-    "intent": "cld:::shiftservice:::/shift-schedules/:id",
-    "message": {
-        "ID": 1,
-        "alias": "Shift 1",
-        "description": "Description 1",
-        "frequency": 7,
-        "start_date": "2023-01-01T00:00:00+03:00",
-        "end_date": "2023-10-01T00:00:00+03:00",
-        "year": 2023,
-        "status": 0,
-        "organization": [
-            {
-                "id": 0,
-                "name": "Group 1",
-                "phone": "",
-                "mail": "",
-                "description": ""
-            }
-        ],
-        "manager": [
-            {
-                "id": 0,
-                "name": "Manager 1",
-                "phone": "",
-                "mail": "",
-                "description": ""
-            }
-        ],
-        "shifts": [
-            {
-                "id": 0,
-                "start": "2023-01-01 00:00:00",
-                "end": "2023-02-01 00:00:00",
-                "user": {
-                    "name": "User 1",
-                    "mail": "",
-                    "phone": ""
-                }
-            },
-            {
-                "id": 1,
-                "start": "2023-01-01 00:00:00",
-                "end": "2023-02-01 00:00:00",
-                "user": {
-                    "name": "User 2",
-                    "mail": "",
-                    "phone": ""
-                }
-            },
-            {
-                "id": 2,
-                "start": "2023-01-01 00:00:00",
-                "end": "2023-02-01 00:00:00",
-                "user": {
-                    "name": "User 3",
-                    "mail": "",
-                    "phone": ""
-                }
-            }
-        ],
-        "CreatedAt": "2024-01-03T15:05:09.503045+03:00",
-        "UpdatedAt": "2024-01-03T15:05:09.503045+03:00",
-        "DeletedAt": null
-    }
-  }
-  ```
-
-- **shift-schedules/deleted**
-
-  - İstek
-
-  ```bash
-    curl --location 'http://localhost:9097/shift-scheduler-service/shift-schedules/deleted'
-  ```
-
-  - Yanıt
-
-  ```json
-  {
-    "status": true,
-    "intent": "cld:::shiftservice:::/shift-schedules/:deleted",
-    "message": {
-        "ID": 2,
-        "alias": "Shift 2",
-        "description": "Description 1",
-        "frequency": 7,
-        "start_date": "2023-01-01T03:00:00+03:00",
-        "end_date": "2023-11-01T03:00:00+03:00",
-        "year": 2023,
-        "status": 0,
-        "organization": [
-            {
-                "id": 0,
-                "name": "Group 1",
-                "phone": "",
-                "mail": "",
-                "description": ""
-            }
-        ],
-        "manager": [
-            {
-                "id": 0,
-                "name": "Manager 1",
-                "phone": "",
-                "mail": "",
-                "description": ""
-            }
-        ],
-        "shifts": [
-          {
-              "id": 0,
-              "start": "2023-01-01 00:00:00",
-              "end": "2023-02-01 00:00:00",
-              "user": {
-                  "name": "User 1",
-                  "mail": "",
-                  "phone": ""
-              },
-          },
-          {
-              "id": 1,
-              "start": "2023-01-01 00:00:00",
-              "end": "2023-02-01 00:00:00",
-              "user": {
-                  "name": "User 2",
-                  "mail": "",
-                  "phone": ""
-              },
-          },
-          {
-              "id": 2,
-              "start": "2023-01-01 00:00:00",
-              "end": "2023-02-01 00:00:00",
-              "user": {
-                  "name": "User 3",
-                  "mail": "",
-                  "phone": ""
-              },
-          }
-        ],
-        "CreatedAt": "2023-12-28T14:31:06.91924+03:00",
-        "UpdatedAt": "2023-12-28T14:42:47.283204+03:00",
-        "DeletedAt": null
-    }
-  }  
-  ```
-
-- **shift-schedules/paginated**
-
-  - İstek
-
-  ```bash
-    curl --location 'http://localhost:9097/shift-scheduler-service/shift-schedules/paginated?page=1&size=10&orderBy=desc'
-  ```
-
-  - Yanıt
-
-  ```json
-  {
-    "status": true,
-    "intent": "cld:::shiftservice:::/shift-schedules/pagination",
-    "message": [
-        {
-            "ID": 1,
-            "alias": "Shift 1",
-            "description": "Description 1",
-            "frequency": 7,
-            "start_date": "2023-01-01T00:00:00+03:00",
-            "end_date": "2023-10-01T00:00:00+03:00",
-            "year": 2023,
-            "status": 0,
-            "organization": [
-                {
-                  "id": 0,
-                  "name": "Group 1",
-                  "phone": "",
-                  "mail": "",
-                  "description": ""
-                }
-            ],
-            "manager": [
-                {
-                  "id": 0,
-                  "name": "Manager 1",
-                  "phone": "",
-                  "mail": "",
-                  "description": ""
-                }
-            ],
-            "shifts": [
-                {
-                    "id": 0,
-                    "start": "2023-01-01 00:00:00",
-                    "end": "2023-02-01 00:00:00",
-                    "user": {
-                        "name": "User 1",
-                        "mail": "",
-                        "phone": ""
-                    }
-                },
-                {
-                    "id": 1,
-                    "start": "2023-01-01 00:00:00",
-                    "end": "2023-02-01 00:00:00",
-                    "user": {
-                        "name": "User 2",
-                        "mail": "",
-                        "phone": ""
-                    }
-                },
-                {
-                    "id": 2,
-                    "start": "2023-01-01 00:00:00",
-                    "end": "2023-02-01 00:00:00",
-                    "user": {
-                        "name": "User 3",
-                        "mail": "",
-                        "phone": ""
-                    }
-                }
-            ],
-            "CreatedAt": "2024-01-03T15:05:09.503045+03:00",
-            "UpdatedAt": "2024-01-03T15:05:09.503045+03:00",
-            "DeletedAt": null
-        }
-    ]
-  }
-  ```
-
-- **shift-schedules/year/2024**
-
-  - İstek
-
-  ```bash
-    curl --location 'http://localhost:9097/shift-scheduler-service/shift-schedules/year/2023'
-  ```
-
-  - Yanıt
-
-  ```json
-   {
-    "status": true,
-    "intent": "cld:::shiftservice:::/shift-schedules/year/:year",
-    "message": {
-        "ID": 1,
-        "alias": "Shift 1",
-        "description": "Description 1",
-        "frequency": 7,
-        "start_date": "2023-01-01T00:00:00+03:00",
-        "end_date": "2023-10-01T00:00:00+03:00",
-        "year": 2023,
-        "status": 0,
-        "organization": [
-            {
-                "id": 0,
-                "name": "Group 1",
-                "phone": "",
-                "mail": "",
-                "description": ""
-            }
-        ],
-        "manager": [
-            {
-                "id": 0,
-                "name": "Manager 1",
-                "phone": "",
-                "mail": "",
-                "description": ""
-            }
-        ],
-        "shifts": [
-            {
-                "id": 0,
-                "start": "2023-01-01 00:00:00",
-                "end": "2023-02-01 00:00:00",
-                "user": {
-                    "name": "User 1",
-                    "mail": "",
-                    "phone": ""
-                }
-            },
-            {
-                "id": 1,
-                "start": "2023-01-01 00:00:00",
-                "end": "2023-02-01 00:00:00",
-                "user": {
-                    "name": "User 2",
-                    "mail": "",
-                    "phone": ""
-                }
-            },
-            {
-                "id": 2,
-                "start": "2023-01-01 00:00:00",
-                "end": "2023-02-01 00:00:00",
-                "user": {
-                    "name": "User 3",
-                    "mail": "",
-                    "phone": ""
-                }
-            }
-        ],
-        "CreatedAt": "2024-01-03T15:05:09.503045+03:00",
-        "UpdatedAt": "2024-01-03T15:05:09.503045+03:00",
-        "DeletedAt": null
-    }
-  }
-  ```
-
-- **shift-schedules/id (sil)**
-
-  - İstek
-
-  ```bash
-    curl --location --request DELETE 'http://localhost:9097/shift-scheduler-service/shift-schedules/1'
-  ```
-
-  - Yanıt
-
-  ```json
-  {
-      "status": true,
-      "intent": "cld:::shiftservice:::/shift-schedules/:id",
-      "message": "Shift Schedule Successfully Deleted"
-  }
-  ```
-
-- **shift-schedules/id/restore (geri al)**
-
-  - Request
-
-  ```bash
-    curl --location --request PATCH 'http://localhost:9097/shift-scheduler-service/shift-schedules/1/restore'
-  ```
-
-  - Response
-
-  ```json
-  {
-      "status": true,
-      "intent": "cld:::shiftservice:::/shift-schedules/:id/restore",
-      "message": "Shift Schedule Successfully Restored"
-  }
-  ```
-
-- **shift-schedules (oluştur)**
-
-  - İstek
-
-  ```bash
-  curl --location 'http://localhost:9097/shift-scheduler-service/shift-schedules' \
-  --header 'Content-Type: application/json' \
-  --data '{
-      "alias": "Shift 2",
-      "description": "Description 1",
-      "frequency": 7,
-      "start_date": "2023-01-01T00:00:00Z",
-      "end_date": "2023-11-01T00:00:00Z",
-      "year": 2023,
-      "status": 2,
-      "organization": [
-          {
-              "id": 0,
-              "name": "Group 2",
-              "mail": "",
-              "phone": "",
-              "description": ""
-          }
-      ],
-      "manager": [
-          {
-              "id": 0,
-              "name": "Manager 2",
-              "mail": "",
-              "phone": "",
-              "description": ""
-          }
-      ],
-      "shifts": [
-          {
-              "id": 0,
-              "start": "2023-01-01 00:00:00",
-              "end": "2023-02-01 00:00:00",
-              "user": {
-                  "name": "User 1",
-                  "mail": "",
-                  "phone": ""
-              }
-          },
-          {
-              "id": 1,
-              "start": "2023-01-01 00:00:00",
-              "end": "2023-02-01 00:00:00",
-              "user": {
-                  "name": "User 2",
-                  "mail": "",
-                  "phone": ""
-              }
-          },
-          {
-              "id": 2,
-              "start": "2023-01-01 00:00:00",
-              "end": "2023-02-01 00:00:00",
-              "user": {
-                  "name": "User 3",
-                  "mail": "",
-                  "phone": ""
-              }
-          }
-      ]
-  }'
-  ```
-
-  - Yanıt
-
-  ```json
-  {
-    "status": true,
-    "intent": "cld:::shiftservice:::/shift-schedules",
-    "message": "Shift Schedule Successfully Created"
-  }
-  ```
-
-- **shift-schedules/id (güncelle)**
-
-  - İstek
-
-  ```bash
-  curl --location --request PUT 'http://localhost:9097/shift-scheduler-service/shift-schedules/2' \
-  --header 'Content-Type: application/json' \
-  --data '{
-      "alias": "Shift 2",
-      "description": "Description 1",
-      "frequency": 7,
-      "start_date": "2023-01-01T00:00:00Z",
-      "end_date": "2023-11-01T00:00:00Z",
-      "year": 2029,
-      "status": 2,
-      "organization": [
-          {
-              "id": 0,
-              "name": "Group 2",
-              "mail": "",
-              "phone": "",
-              "description": ""
-          }
-      ],
-      "manager": [
-          {
-              "id": 0,
-              "name": "Manager 2",
-              "mail": "",
-              "phone": "",
-              "description": ""
-          }
-      ],
-      "shifts": [
-          {
-              "id": 0,
-              "start": "2023-01-01 00:00:00",
-              "end": "2023-02-01 00:00:00",
-              "user": {
-                  "name": "User 1",
-                  "mail": "",
-                  "phone": ""
-              }
-          },
-          {
-              "id": 1,
-              "start": "2023-01-01 00:00:00",
-              "end": "2023-02-01 00:00:00",
-              "user": {
-                  "name": "User 2",
-                  "mail": "",
-                  "phone": ""
-              }
-          },
-          {
-              "id": 2,
-              "start": "2023-01-01 00:00:00",
-              "end": "2023-02-01 00:00:00",
-              "user": {
-                  "name": "User 3",
-                  "mail": "",
-                  "phone": ""
-              }
-          }
-      ]
-  }'
-  ```
-
-  - Yanıt
-
-  ```json
-  {
-    "status": true,
-    "intent": "cld:::shiftservice:::/shift-schedules/:id",
-    "message": "Shift Schedule Successfully Updated"
-  }
-  ```
+- Linkedin at [Yunus Emre Alpu](https://www.linkedin.com/in/yunus-emre-alpu-5b1496151/)

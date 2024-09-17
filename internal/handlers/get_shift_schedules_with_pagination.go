@@ -17,16 +17,18 @@ import (
 // @Summary get all shift schedules with pagination
 // @Schemes
 // @Description get all shift schedules with pagination
-// @Tags shifts
+// @Tags Shift
 // @Accept json
 // @Produce json
 // @Security BearerAuth
+// @Param page query string false "page"
+// @Param size query string false "size"
+// @Param orderBy query string false "orderBy"
 // @Success 200 {object} RespondJson "get all shift schedules successfully"
 // @Failure 400 {object} RespondJson "cannot get shift schedules  with pagination due to invalid request body"
 // @Failure 422 {object} RespondJson "cannot get shift schedules  with pagination due to invalid request body"
 // @Failure 500 {object} RespondJson "cannot get shift schedules  with pagination due to internal server error"
-// @Router /shift-scheduler-service/shift-schedules/paginated [get]
-
+// @Router /shift-schedules/paginated [get]
 func (ss *ShiftService) HandleGetShiftSchedulesWithPagination(c *gin.Context) (int, interface{}, error) {
 	// Step 1: Get pagination query params and validate them
 	var params models.PaginationQuery

@@ -16,20 +16,20 @@ import (
 // @Summary get all deleted shift schedules
 // @Schemes
 // @Description get all deleted shift schedules
-// @Tags shift schedules
+// @Tags Shift
 // @Accept json
 // @Produce json
 // @Security BearerAuth
+// @Param id path string true "Shift Schedule ID"
 // @Success 200 {object} RespondJson "get all shift schedules successfully"
 // @Failure 400 {object} RespondJson "cannot get only deleted shift schedules due to invalid request body"
 // @Failure 422 {object} RespondJson "cannot get only deleted shift schedules due to invalid request body"
 // @Failure 500 {object} RespondJson "cannot get only deleted shift schedules due to internal server error"
-// @Router /shift-scheduler-service/shift-schedules/deleted [get]
-
+// @Router /shift-schedules/deleted [get]
 func (ss *ShiftService) HandleGetOnlyDeletedShiftSchedules(c *gin.Context) (int, interface{}, error) {
 	// Step 1: Get all shift schedules from database
-	var shift_schedules []models.ShiftSchedule
-	if err := ss.db.Unscoped().Where("deleted_at IS NOT NULL").Find(&shift_schedules).Error; err != nil {
+	var shiftSchedules []models.ShiftSchedule
+	if err := ss.db.Unscoped().Where("deleted_at IS NOT NULL").Find(&shiftSchedules).Error; err != nil {
 		r, i := httpErrors.ErrorResponse(err)
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return r, i, errors.New("cannot get all shift schedules due to not found")
@@ -38,5 +38,5 @@ func (ss *ShiftService) HandleGetOnlyDeletedShiftSchedules(c *gin.Context) (int,
 	}
 
 	// Step 2: Return all shift schedules
-	return http.StatusOK, shift_schedules, nil
+	return http.StatusOK, shiftSchedules, nil
 }

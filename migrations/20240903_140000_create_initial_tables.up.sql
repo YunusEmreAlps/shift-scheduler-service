@@ -1,3 +1,7 @@
+-- File Name: 20240903_140000_create_initial_tables.up.sql
+-- Date: 2024-09-03 14:00:00
+-- Author: Yunus Emre Alpu
+
 DROP TABLE IF EXISTS shift_schedule CASCADE;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -17,18 +21,12 @@ CREATE TABLE IF NOT EXISTS shift_schedule (
     status INTEGER NOT NULL,
     organization JSONB NOT NULL, -- group name, mail, phone, description
     manager JSONB NOT NULL,
+    users JSONB DEFAULT NULL,
     shifts JSONB DEFAULT NULL,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP WITH TIME ZONE DEFAULT NULL
 );
-
--- Alter table to frequency
--- ALTER TABLE shift_schedule ADD COLUMN frequency INTEGER NOT NULL DEFAULT 7;
-
-
--- CRON JOB
--- SELECT cron.schedule('0 0 * * *', $$UPDATE shift_schedule SET deleted_at = NOW() WHERE end_date < NOW()$$, 'delete_expired_shift_schedule', false);
 
 -- Shift Schedule 1
 INSERT INTO shift_schedule (
@@ -41,6 +39,7 @@ INSERT INTO shift_schedule (
     status,
     organization,
     manager,
+    users,
     shifts
 ) VALUES (
     'Shift 1',
@@ -55,10 +54,33 @@ INSERT INTO shift_schedule (
     '[
         {
             "id": 0,
+            "name": "User 1",
+            "mail": "",
+            "phone": "",
+            "description": ""
+        },
+        {
+            "id": 1,
+            "name": "User 2",
+            "mail": "",
+            "phone": "",
+            "description": ""
+        },
+        {
+            "id": 2,
+            "name": "User 3",
+            "mail": "",
+            "phone": "",
+            "description": ""
+        }
+    ]',
+    '[
+        {
+            "id": 0,
             "start": "2023-01-01 00:00:00",
             "end": "2023-02-01 00:00:00",
             "user": {
-                "id": 21304362,
+                "id": 0,
                 "name": "User 1",
                 "mail": "",
                 "phone": "",
@@ -70,7 +92,7 @@ INSERT INTO shift_schedule (
             "start": "2023-01-01 00:00:00",
             "end": "2023-02-01 00:00:00",
             "user": {
-                "id": 21304362,
+                "id": 1,
                 "name": "User 2",
                 "mail": "",
                 "phone": "",
@@ -83,7 +105,7 @@ INSERT INTO shift_schedule (
             "start": "2023-01-01 00:00:00",
             "end": "2023-02-01 00:00:00",
             "user": {
-                "id": 21304362,
+                "id": 2,
                 "name": "User 3",
                 "mail": "",
                 "phone": "",
@@ -92,3 +114,16 @@ INSERT INTO shift_schedule (
         }
     ]'
 );
+
+-- Production DB (PROD)
+
+-- Alter table to frequency
+-- ALTER TABLE shift_schedule ADD COLUMN frequency INTEGER NOT NULL DEFAULT 7;
+
+-- But in PROD DB first I need to change shifts to users and then add shifts column (This is PROD DB)
+-- ALTER TABLE shift_schedule RENAME COLUMN shifts TO users;
+-- ALTER TABLE shift_schedule ADD COLUMN shifts JSONB DEFAULT NULL;
+
+-- CRON JOB
+-- SELECT cron.schedule('soft_delete_expired_shift_schedules', '0 0 * * *', $$UPDATE shift_schedule SET deleted_at = NOW() WHERE end_date < NOW()$$);
+-- SELECT * from cron.job;

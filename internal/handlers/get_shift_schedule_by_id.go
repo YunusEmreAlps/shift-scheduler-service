@@ -16,16 +16,16 @@ import (
 // @Summary get a shift schedule by id
 // @Schemes
 // @Description get a shift schedule by id
-// @Tags shift schedule
+// @Tags Shift
 // @Accept json
 // @Produce json
 // @Security BearerAuth
+// @Param id path string true "Shift Schedule ID"
 // @Success 200 {object} RespondJson "get shift by id successfully"
 // @Failure 400 {object} RespondJson "cannot get shift schedule by id due to invalid request body"
 // @Failure 422 {object} RespondJson "cannot get shift schedule by id due to invalid request body"
 // @Failure 500 {object} RespondJson "cannot get shift schedule by id due to internal server error"
-// @Router /shift-scheduler-service/shift-schedules/id [get]
-
+// @Router /shift-schedules/id [get]
 func (ss *ShiftService) HandleGetShiftScheduleByID(c *gin.Context) (int, interface{}, error) {
 	// Step 1: Get shift id from path and validate
 	id := c.Param("id")
@@ -34,8 +34,8 @@ func (ss *ShiftService) HandleGetShiftScheduleByID(c *gin.Context) (int, interfa
 	}
 
 	// Step 2: Get shift schedule by id from database
-	var shift_schedule models.ShiftSchedule
-	if err := ss.db.Where("deleted_at IS NULL AND id = ?", id).Find(&shift_schedule).Error; err != nil {
+	var shiftSchedule models.ShiftSchedule
+	if err := ss.db.Where("deleted_at IS NULL AND id = ?", id).Find(&shiftSchedule).Error; err != nil {
 		r, i := httpErrors.ErrorResponse(err)
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return r, i, errors.New("cannot get shift schedule by id due to not found")
@@ -43,10 +43,6 @@ func (ss *ShiftService) HandleGetShiftScheduleByID(c *gin.Context) (int, interfa
 		return r, i, errors.New("cannot get shift schedule by id due to internal server error")
 	}
 
-	if shift_schedule.ID == 0 {
-		return http.StatusNotFound, nil, errors.New("cannot get shift schedule by id due to not found")
-	}
-
 	// Step 3: Return shift schedule by id
-	return http.StatusOK, shift_schedule, nil
+	return http.StatusOK, shiftSchedule, nil
 }
