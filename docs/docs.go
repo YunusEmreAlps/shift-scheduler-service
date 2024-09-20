@@ -450,6 +450,122 @@ const docTemplate = `{
                 }
             }
         },
+        "/shift-schedules/week": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "get shift schedules by current week",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Shift"
+                ],
+                "summary": "get shift schedules by current week",
+                "responses": {
+                    "200": {
+                        "description": "get shifts by current week successfully",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.RespondJson"
+                        }
+                    },
+                    "400": {
+                        "description": "cannot get shifts schedule by current week due to invalid request body",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.RespondJson"
+                        }
+                    },
+                    "422": {
+                        "description": "cannot get shifts schedule by current week due to invalid request body",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.RespondJson"
+                        }
+                    },
+                    "500": {
+                        "description": "cannot get shifts schedule by current week due to internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.RespondJson"
+                        }
+                    }
+                }
+            }
+        },
+        "/shift-schedules/week/paginated": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "get shift schedules by week with pagination",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Shift"
+                ],
+                "summary": "get shift schedules by current week with pagination",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "size",
+                        "name": "size",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            "asc",
+                            "desc"
+                        ],
+                        "type": "string",
+                        "description": "orderBy",
+                        "name": "orderBy",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "get shifts by current week successfully",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.RespondJson"
+                        }
+                    },
+                    "400": {
+                        "description": "cannot get shifts schedule by current week due to invalid request body",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.RespondJson"
+                        }
+                    },
+                    "422": {
+                        "description": "cannot get shifts schedule by current week due to invalid request body",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.RespondJson"
+                        }
+                    },
+                    "500": {
+                        "description": "cannot get shifts schedule by current week due to internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.RespondJson"
+                        }
+                    }
+                }
+            }
+        },
         "/shift-schedules/{id}": {
             "delete": {
                 "security": [

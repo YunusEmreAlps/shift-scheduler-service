@@ -101,6 +101,18 @@ func (bs *ShiftService) InitRouter(r *gin.Engine) {
 		respondJson(ctx, code, RN_PREFIX+"/shift-schedules/year/:year", data, err)
 	})
 
+	// Get shift schedule by current week
+	v1.GET("/shift-schedules/week", func(ctx *gin.Context) {
+		code, data, err := bs.HandleGetShiftScheduleByWeek(ctx)
+		respondJson(ctx, code, RN_PREFIX+"/shift-schedules/week", data, err)
+	})
+
+	// Get Get shift schedule by current week with pagination
+	v1.GET("/shift-schedules/week/paginated", func(ctx *gin.Context) {
+		code, data, err := bs.HandleGetShiftScheduleByWeekWithPagination(ctx)
+		respondJson(ctx, code, RN_PREFIX+"/shift-schedules/week/paginated", data, err)
+	})
+
 	// Get deleted shift schedules
 	v1.GET("/shift-schedules/deleted", func(ctx *gin.Context) {
 		code, data, err := bs.HandleGetOnlyDeletedShiftSchedules(ctx)

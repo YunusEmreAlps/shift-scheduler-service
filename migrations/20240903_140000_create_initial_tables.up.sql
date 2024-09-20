@@ -53,21 +53,21 @@ INSERT INTO shift_schedule (
     '[{"id": 1, "name": "Manager 1", "mail": "", "phone": "", "description": ""}]',
     '[
         {
-            "id": 0,
+            "id": 21304362,
             "name": "User 1",
             "mail": "",
             "phone": "",
             "description": ""
         },
         {
-            "id": 1,
+            "id": 21304363,
             "name": "User 2",
             "mail": "",
             "phone": "",
             "description": ""
         },
         {
-            "id": 2,
+            "id": 21304364,
             "name": "User 3",
             "mail": "",
             "phone": "",
@@ -80,7 +80,7 @@ INSERT INTO shift_schedule (
             "start": "2023-01-01 00:00:00",
             "end": "2023-02-01 00:00:00",
             "user": {
-                "id": 0,
+                "id": 21304362,
                 "name": "User 1",
                 "mail": "",
                 "phone": "",
@@ -92,7 +92,7 @@ INSERT INTO shift_schedule (
             "start": "2023-01-01 00:00:00",
             "end": "2023-02-01 00:00:00",
             "user": {
-                "id": 1,
+                "id": 21304362,
                 "name": "User 2",
                 "mail": "",
                 "phone": "",
@@ -105,7 +105,7 @@ INSERT INTO shift_schedule (
             "start": "2023-01-01 00:00:00",
             "end": "2023-02-01 00:00:00",
             "user": {
-                "id": 2,
+                "id": 21304362,
                 "name": "User 3",
                 "mail": "",
                 "phone": "",

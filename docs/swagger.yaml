@@ -446,6 +446,86 @@ paths:
       summary: get all shift schedules with pagination
       tags:
       - Shift
+  /shift-schedules/week:
+    get:
+      consumes:
+      - application/json
+      description: get shift schedules by current week
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: get shifts by current week successfully
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+        "400":
+          description: cannot get shifts schedule by current week due to invalid request
+            body
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+        "422":
+          description: cannot get shifts schedule by current week due to invalid request
+            body
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+        "500":
+          description: cannot get shifts schedule by current week due to internal
+            server error
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+      security:
+      - BearerAuth: []
+      summary: get shift schedules by current week
+      tags:
+      - Shift
+  /shift-schedules/week/paginated:
+    get:
+      consumes:
+      - application/json
+      description: get shift schedules by week with pagination
+      parameters:
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: size
+        in: query
+        name: size
+        type: string
+      - description: orderBy
+        enum:
+        - asc
+        - desc
+        in: query
+        name: orderBy
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: get shifts by current week successfully
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+        "400":
+          description: cannot get shifts schedule by current week due to invalid request
+            body
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+        "422":
+          description: cannot get shifts schedule by current week due to invalid request
+            body
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+        "500":
+          description: cannot get shifts schedule by current week due to internal
+            server error
+          schema:
+            $ref: '#/definitions/handlers.RespondJson'
+      security:
+      - BearerAuth: []
+      summary: get shift schedules by current week with pagination
+      tags:
+      - Shift
 schemes:
 - http
 - https
