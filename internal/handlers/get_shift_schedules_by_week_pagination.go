@@ -47,28 +47,31 @@ func (ss *ShiftService) HandleGetShiftScheduleByWeekWithPagination(c *gin.Contex
 		params.OrderBy = fmt.Sprintf("created_at %s", params.OrderBy)
 	}
 
-	// Step 1: Get all shift schedules
+	// Step 3: Get all shift schedules
 	var shiftSchedules []models.ShiftSchedule
 	if err := ss.db.Where("deleted_at IS NULL").Find(&shiftSchedules).Error; err != nil {
 		return http.StatusInternalServerError, nil, err
 	}
 
-	// Step 2: Get current date and time this week format
-	today := time.Now().UTC()
-	weekStart := today.AddDate(0, 0, -int(today.Weekday())+1) // Must be Monday
+	// Step 4: Get current date and time this week format
+	today := time.Now()
+	weekStart := today.AddDate(0, 0, -int(today.Weekday()))
 	if today.Weekday() == time.Sunday {
-		weekStart = today.AddDate(0, 0, -6) // Adjust for Sunday
+		weekStart = weekStart.AddDate(0, 0, -6)
 	}
-	weekStart = time.Date(weekStart.Year(), weekStart.Month(), weekStart.Day(), 0, 0, 0, 0, time.UTC)
-	weekEnd := weekStart.AddDate(0, 0, 7)
-	weekEnd = time.Date(weekEnd.Year(), weekEnd.Month(), weekEnd.Day(), 23, 59, 59, 0, time.UTC)
+	weekStart = time.Date(weekStart.Year(), weekStart.Month(), weekStart.Day(), 0, 0, 0, 0, weekStart.Location())
+	weekEnd := weekStart.AddDate(0, 0, 6)
+	weekEnd = time.Date(weekEnd.Year(), weekEnd.Month(), weekEnd.Day(), 23, 59, 59, 0, weekEnd.Location())
 
-	// Step 3: Filter shift schedules by current week
+	// Step 5: Filter shift schedules by current week
 	var data []map[string]interface{}
 	for _, shiftSchedule := range shiftSchedules {
-		organizationData := map[string]interface{}{
+		//
+		temp := map[string]interface{}{
+			"alias":        shiftSchedule.Alias,
 			"week_start":   weekStart.Format(time.RFC3339),
 			"week_end":     weekEnd.Format(time.RFC3339),
+			"manager":      shiftSchedule.Manager,
 			"organization": shiftSchedule.Organization,
 			"shifts":       []interface{}{},
 		}
@@ -88,20 +91,29 @@ func (ss *ShiftService) HandleGetShiftScheduleByWeekWithPagination(c *gin.Contex
 				continue // Skip invalid date formats
 			}
 
-			// Check if shift is in current week
+			// Check if shift is in current week range
 			if (startTime.After(weekStart) || startTime.Equal(weekStart)) && (endTime.Before(weekEnd) || endTime.Equal(weekEnd)) {
-				organizationData["shifts"] = append(organizationData["shifts"].([]interface{}), shift)
+				temp["shifts"] = append(temp["shifts"].([]interface{}), shift)
+			} else if (startTime.Before(weekStart) || startTime.Equal(weekStart)) && (endTime.After(weekEnd) || endTime.Equal(weekEnd)) {
+				temp["shifts"] = append(temp["shifts"].([]interface{}), shift)
+			} else if (startTime.After(weekStart) || startTime.Equal(weekStart)) && (startTime.Before(weekEnd) || startTime.Equal(weekEnd)) {
+				temp["shifts"] = append(temp["shifts"].([]interface{}), shift)
+			} else if (endTime.After(weekStart) || endTime.Equal(weekStart)) && (endTime.Before(weekEnd) || endTime.Equal(weekEnd)) {
+				temp["shifts"] = append(temp["shifts"].([]interface{}), shift)
 			}
 		}
 
 		// Only add organization data if there are shifts in the current week
-		if len(organizationData["shifts"].([]interface{})) > 0 {
-			data = append(data, organizationData)
+		if len(temp["shifts"].([]interface{})) > 0 {
+			data = append(data, temp)
 		} else {
+			// If empty or not all departments want to be shown
 			data = append(data, map[string]interface{}{
+				"alias":        shiftSchedule.Alias,
 				"week_start":   weekStart.Format(time.RFC3339),
 				"week_end":     weekEnd.Format(time.RFC3339),
 				"organization": shiftSchedule.Organization,
+				"manager":      shiftSchedule.Manager,
 				"shifts":       []interface{}{},
 			})
 		}
@@ -126,6 +138,6 @@ func (ss *ShiftService) HandleGetShiftScheduleByWeekWithPagination(c *gin.Contex
 		filteredData = data[start:end]
 	}
 
-	// Step 4: Return shift schedules by week
+	// Step 6: Return shift schedules by week
 	return http.StatusOK, filteredData, nil
 }
